@@ -173,12 +173,12 @@ class GCNPair(object):
             # (5000*5000, 1)
             weighted_adj = tf.reshape(weighted_adj, [1, self.nodes, self.nodes])
 
-            # L2权重均为1的相似性矩阵
+            
             # Wone = tf.constant([[1.0], [1.0], [1.0]], dtype=tf.float32, )
             # weighted_oneadj = tf.matmul(A_, Wone)
             # weighted_oneadj = tf.reshape(weighted_oneadj, [1, self.nodes, self.nodes])
 
-            # L2自学习权重相似性矩阵
+            
             WL2 = tf.nn.sigmoid(tf.get_variable('WL2', shape=[self.meta, 1], initializer=tf.contrib.layers.xavier_initializer()))
             weighted_L2adj = tf.matmul(A_, WL2)
             weighted_L2adj = tf.reshape(weighted_L2adj, [1, self.nodes, self.nodes])
