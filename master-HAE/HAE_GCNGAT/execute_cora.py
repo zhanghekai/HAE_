@@ -9,7 +9,7 @@ import random
 
 tf.set_random_seed(1)
 
-checkpt_file = 'G:\\desktop\\准备的期刊论文\\20190831任务\\HUAWEI数据集测试模型\\HIN+GAT（分类+聚类）\\GAT-master\\premodel\\'
+checkpt_file = 'GAT-master\\premodel\\'
 
 #dataset = 'cora'
 
@@ -25,13 +25,13 @@ residual = False
 nonlinearity = tf.nn.elu
 model = GAT
 
-'''数据集的大小，也即节点的个数'''
+
 data_size = 4200
 meta_size = 3
 fold = 20
-'''测试集数量'''
+
 test_size = int(data_size / fold)
-'''训练集数量'''
+
 train_size = data_size - test_size
 
 #print('Dataset: ' + dataset)
@@ -46,13 +46,10 @@ print('residual: ' + str(residual))
 print('nonlinearity: ' + str(nonlinearity))
 print('model: ' + str(model))
 
-'''****************************************第二部分**********************************************'''
 
-'''-----------------加载small数据集和big数据集中的邻接矩阵和特征矩阵--------------------'''
 adj = np.load('small_adj_data.npy')
-features = np.load('未归一化typefeature.npy')
+features = np.load('typefeature.npy')
 
-'''---------------------调用process.preprocess_features_v1对特征矩阵进行处理-----------------------------------'''
 features = process.preprocess_features_v1(features)
 #features = process.preprocess_features_v2(features)
 
@@ -60,8 +57,6 @@ print('features.shape:', features.shape)
 print('adj.shape:', adj.shape)
 
 
-
-'''---------------------此处增加了read_data----------------------'''
 def read_data():
     label_ = np.load('one_hot_lable.npy')
     index = [i for i in range(data_size)]
@@ -72,7 +67,6 @@ def read_data():
 lastlabel,train_data, train_label, test_data, test_label = read_data()
 
 def sample_mask(idx, l):
-    '''mask为(N,)大小的全为0的矩阵,即array([x,x,x,x,...])的形式'''
     mask = np.zeros(l)
     mask[idx] = 1
     return np.array(mask, dtype=np.bool)
@@ -97,11 +91,11 @@ print('y_train:{}, y_test:{}, train_mask:{}, test_mask:{}'.format(y_train.shape,
 
 
 
-'''节点数量'''
+
 nb_nodes = features.shape[0]
-'''输入特征的第二个维度，small_data和big_data中这个值一样'''
+
 ft_size = features.shape[1]
-'''节点可分类的类别数量'''
+
 nb_classes = y_train.shape[1]
 
 print('nb_nodes:', nb_nodes)
@@ -110,7 +104,7 @@ print('nb_classes:', nb_classes)
 
 #adj = adj.todense()
 
-# np.newaxis的作用就是在这一位置增加一个一维，这一位置指的是np.newaxis所在的位置
+
 features = features[np.newaxis]
 y_train = y_train[np.newaxis]
 y_test = y_test[np.newaxis]
@@ -124,18 +118,11 @@ print('features:{},adj:{}, y_train:{} ,y_test:{}, train_mask:{},  test_mask:{}'.
                                                                                              train_mask.shape,
                                                                                              test_mask.shape))
 
-'''训练集(small_data)不同路径下的邻接矩阵，大小为[path_size,nb_nodes,nb_nodes]'''
+
 #biases = process.adj_to_bias(adj, nb_nodes, nhood=1)
 biases = adj
 print('biases:',biases.shape)
 print('biases:',biases)
-'''测试集(big_data)不同路径下的邻接矩阵，大小为[path_size,bnb_nodes,bnb_nodes]'''
-print('*******************************End Part 3***********************************')
-
-
-
-
-'''========================================================================================================================================'''
 
 
 
@@ -260,7 +247,7 @@ with tf.Graph().as_default():
                     saver.save(sess, checkpt_file)
                     print('...................Save Model................')
                     feas = np.array(feas)
-                    np.save('G:\\desktop\\准备的期刊论文\\20190831任务\\HUAWEI数据集测试模型\\HIN+GAT（分类+聚类）\\GAT-master\\premodel\\feas.npy',feas)
+                    np.save(\\GAT-master\\premodel\\feas.npy',feas)
 
         print("The best acc in test is:", max_test_acc)
 
